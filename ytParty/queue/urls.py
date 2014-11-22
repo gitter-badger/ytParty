@@ -5,8 +5,10 @@ from . import api
 
 urlpatterns = patterns(
     url(r'^$', views.index_view, name='index'),
-    url(r'^player/$', views.index_view),
-    url(r'^party/(?P<party_token>\w+)/$', views.party_view, name='player'),
+    url(r'^player/$', views.player_view),
+    url(r'^player/(?P<party_token>\w+)/(?P<video_token>\w+)/$', views.player_view),
+    url(r'^player/(?P<party_token>\w+)/$', views.player_view),
+    url(r'^party/(?P<party_token>\w+)/$', views.party_view, name='party'),
     url(r'^create_party/$', views.create_party_view, name='party_creation_view'),
 
     # api urls
