@@ -3,7 +3,13 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <script type="javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    {% block js %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static "jquery-1.11.1.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "jQuery.tubeplayer.min.js" %}"></script>
+    {% endblock %}
+
     {% block head %}
     {% endblock %}
 </head>
