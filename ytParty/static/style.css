@@ -1,0 +1,11 @@
+.actual {
+    background-color : #000000;
+}
+
+.finished {
+    background-color : #008000;
+}
+
+.queued {
+    background-color : #808080;
+}
