@@ -1,11 +1,7 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
 
 def index(request):
     template = loader.get_template('ytQueue/index.html')
-    context = RequestContext(request, {
-        'name': 'Siema',
-    })
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(RequestContext(request)))
