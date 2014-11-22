@@ -1,7 +1,24 @@
 {% extends "queue/base.html" %}
 {% load bootstrap3 %}
+{% block head %}
+    {% load staticfiles %}
+{% endblock %}
 {% block body %}
-Czesc userze.
-Party token to: {{ party.token }}
+    Czesc.
+    Party token to: {{ party_token }}
+    {% block host_info %}
+    {% endblock %}
+    <script>
+        party_token = "{{ party_token }}";
+        function reloadList(id) {
+            $.ajax({
+                url: 'api/get_queue/' + party_token,
+                success: function(data) {
+                    alert("Data Saved: " + data);
+                }
+            });
+        }
+        reloadList("id");
+    </script>
 {% endblock %}
 

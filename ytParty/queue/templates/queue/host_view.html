@@ -1,8 +1,6 @@
-{% extends "queue/base.html" %}
+{% extends "queue/user_view.html" %}
 {% load bootstrap3 %}
-{% block body %}
-Cześć hoście
-Party token to: {{ party_token }}
-Jest już {{ party_count }} party
+{% block host_info %}
+    Jest już {{ party_count }} party
 {% endblock %}
 

@@ -11,6 +11,7 @@ from models import Party, User
 TOKEN_SIZE = 5
 COOKIE_LIFETIME = 24 * 60 * 60
 
+
 def _create_and_or_get_user(request):
     if 'user_id' in request.COOKIES:
         user_id = request.COOKIES['user_id']
@@ -26,6 +27,7 @@ def _create_and_or_get_user(request):
 
     return (False, user)
 
+
 def _create_party(user):
     party = Party()
     party.host_id = user
@@ -34,9 +36,11 @@ def _create_party(user):
     party.save()
     return party
 
+
 def index_view(request):
     template = loader.get_template('queue/index.html')
     return HttpResponse(template.render(RequestContext(request)))
+
 
 def create_party_view(request):
     context = RequestContext(request)
@@ -55,6 +59,7 @@ def create_party_view(request):
 
     return response
 
+
 def host_view(request, context, party):
     context_dict = {
         'party_token': party.token,
@@ -62,7 +67,6 @@ def host_view(request, context, party):
     }
     response = render_to_response('queue/host_view.html', context_dict, context)
     return response
-
 
 
 def party_view(request, party_token=None):
@@ -81,7 +85,7 @@ def party_view(request, party_token=None):
         return host_view(request, context, party)
 
     context_dict = {
-        'party': party,
+        'party_token': party.token,
     }
 
     response = render_to_response('queue/user_view.html', context_dict, context)
