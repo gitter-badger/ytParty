@@ -5,9 +5,11 @@
     <title></title>
 
     {% block js %}
-    {% load staticfiles %}
-    <script type="text/javascript" src="{% static "jquery-1.11.1.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "jQuery.tubeplayer.min.js" %}"></script>
+        {% load staticfiles %}
+        <script type="text/javascript" src="{% static "jquery-1.11.1.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "jQuery.tubeplayer.min.js" %}"></script>
+        <link rel="stylesheet" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
     {% endblock %}
 
     {% block head %}

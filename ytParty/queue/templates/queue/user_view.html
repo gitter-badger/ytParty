@@ -2,20 +2,88 @@
 {% load bootstrap3 %}
 {% block head %}
     {% load staticfiles %}
+    <link rel="stylesheet" src="{% static "style.css" %}">
 {% endblock %}
 {% block body %}
     Czesc.
     Party token to: {{ party_token }}
     {% block host_info %}
     {% endblock %}
+    <div id="youtube_list">
+        <ul>
+
+        </ul>
+    </div>
+    <style>
+        .actual {
+            background-color : #008000;
+        }
+
+        .finished {
+            background-color : #ffff00;
+        }
+
+        .queued {
+            background-color : #0000ff;
+        }
+
+        .divForElment {
+            margin           : 20px;
+            background-color : cornflowerblue;
+            border-radius    : 5px;
+        }
+
+        .imageY {
+            padding : 5px;
+        }
+
+        .textTitle {
+            display      : inline;
+            position     : relative;
+            bottom       : 40px;
+            padding-left : 50px;
+        }
+    </style>
     <script>
+        $.extend({
+            jYoutube: function(url, size) {
+                if (url === null) {
+                    return "";
+                }
+
+                size = (size === null) ? "big" : size;
+                var vid;
+                var results;
+
+                results = url.match("[\?&amp;]v=([^&amp;#]*)");
+
+                vid = ( results === null ) ? url : results[1];
+
+                if (size == "small") {
+                    return "http://img.youtube.com/vi/" + vid + "/2.jpg";
+                } else {
+                    return "http://img.youtube.com/vi/" + vid + "/0.jpg";
+                }
+            }
+        });
         party_token = "6KDBW";
         //party_token = "{{ party_token }}";
         function reloadList(id) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
                 success: function(data) {
-                    alert("Data Saved: " + data);
+                    data.forEach(function(model) {
+                        var video_id = model.fields.token;
+                        url = $.jYoutube(video_id)
+                        $.getJSON('http://gdata.youtube.com/feeds/api/videos/' + video_id + '?v=2&alt=jsonc', function(data, status, xhr) {
+                            json_data = data.data;
+                            title = $("<p>").text(json_data.title).addClass("textTitle");
+                            console.log(model.fields);
+                            image = $("<img>").attr('src', json_data.thumbnail.sqDefault).addClass("imageY");
+
+                            $("<div>").addClass("divForElment").append(image).append(title).appendTo('#youtube_list');
+                        });
+                    });
                 }
             });
         }
