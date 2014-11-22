@@ -14,8 +14,18 @@ class Party(models.Model):
     status = models.CharField(max_length=1, choices=PARTY_STATUS)
 
 
-class QueueRow(models.Model):
-    pass
+class Video(models.Model):
+    party_id = models.ForeignKey(Party)
+    votes = models.IntegerField()
+    time_added = models.DateTimeField(auto_now_add=True)
+    token = models.CharField(max_length=12)
+    user_id = models.ForeignKey(User)
+    VIDEO_STATUS = (
+        ('F', 'Finished'),
+        ('P', 'Playing'),
+        ('Q', 'Queued'),
+    )
+    status = models.CharField(max_length=1, choices=VIDEO_STATUS)
 
 
 class UserParties(models.Model):
