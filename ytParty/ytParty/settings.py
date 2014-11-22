@@ -36,7 +36,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
 )
+
+PROJECT_APPS = (
+    'ytQueue',
+)
+
+INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
