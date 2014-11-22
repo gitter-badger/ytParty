@@ -10,8 +10,8 @@ class Party(models.Model):
     host_id = models.ForeignKey(User)
     token = models.CharField(max_length=5, primary_key=True)
     PARTY_STATUS = (
-        ('P', 'Running'),
-        ('R', 'Paused'),
+        ('R', 'Running'),
+        ('P', 'Paused'),
     )
     status = models.CharField(max_length=1, choices=PARTY_STATUS)
 

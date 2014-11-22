@@ -35,25 +35,32 @@ def upvote_video(request, party_token, video_id):
 
 def video_end(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
+    print video.status
     video.status = 'F'
     video.save()
+    print video.status
 
-    return HttpResponse('SUKCES')
+    return HttpResponse('SUCCESS')
 
 
 def get_next_video(request, party_token):
     party = Party.objects.get(token=party_token)
-    videos = Video.objects.filter(party_id=party).order_by('-votes')
+    videos = Video.objects.filter(party_id=party).exclude(status='F').order_by('-votes')
+
     try:
-        video = videos.get(status='R')
-        return video
+        video = videos.get(status='P')
+        data = { 'token': video.token, 'id': video.id}
+        return HttpResponse(json.dumps(data))
     except Video.DoesNotExist:
         pass
 
     if videos:
         video = videos[0]
-        video.status = 'R'
+        print video.status
+        video.status = 'P'
         video.save()
-        return None  # TODO: Should return serialized video
+        print video.status
+        data = { 'token': video.token, 'id': video.id}
+        return HttpResponse(json.dumps(data))
     else:
         raise Http404

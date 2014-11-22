@@ -95,7 +95,7 @@ def party_view(request, party_token=None):
     return response
 
 
-def player_view(request, party_token=None, video_token='M7lc1UVf-VE'):
+def player_view(request, party_token=None):
     if party_token is None:
         raise Http404
 
@@ -105,22 +105,38 @@ def player_view(request, party_token=None, video_token='M7lc1UVf-VE'):
     party = Party.objects.filter(token=party_token)
     videos = Video.objects.filter(party_id=party).order_by('-votes')
     try:
-        video = videos.get(status='R')
+        video = videos.get(status='P')
     except Video.DoesNotExist:
         video = None
 
-    if video is None and videos.count():
+    if video is None:
         video = videos[0]
-        video.status = 'R'
+        video.status = 'P'
         video.save()
         context_dict = {
             'video_token': video.token,
+            'party_token': party_token,
+            'video_id': video.id,
+        }
+    elif video:
+        context_dict = {
+            'video_token': video.token,
+            'party_token': party_token,
+            'video_id': video.id,
         }
     else:
+        video = Video
+        video.party_id = party
+        video.token = 'o9UQSUHHdtA'
+        video.status = 'Q'
+        video.save()
         context_dict = {
-            'video_token': video_token,
+            'video_token': video.token,
+            'party_token': party_token,
+            'video_id': 0,
         }
 
     response = render_to_response('queue/player.html', context_dict, context)
 
     return response
+

@@ -1,39 +1,70 @@
+{% extends "queue/base.html" %}
 {% load bootstrap3 %}
 
+{% block body %}
 <!-- 16:9 aspect ratio -->
 <div id="player" class="embed-responsive embed-responsive-16by9"></div>
 
 <script>
-      var currentVideo = '{{ video_token }}';
-      var tag = document.createElement('script');
+    var party_token = '{{ party_token }}';
+    var currentVideo = '{{ video_token }}';
+    var video_id = '{{ video_id }}';
+    var tag = document.createElement('script');
+    
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      var player;
-      function onYouTubeIframeAPIReady() {
+    var player;
+    function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: currentVideo,
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
+            height: '390',
+            width: '640',
+            videoId: currentVideo,
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
         });
-      }
+    }
 
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
+var finished = false;
+function onPlayerReady(event) {
+    event.target.setVolume(0);
+    event.target.playVideo();
+    finished = false;
+}
 
-      function onPlayerStateChange(event) {
-        if (event.data == 0) {
-            event.target.loadVideoById("bHQqvYy5KYo", 0, "default");
+function endVideo(vid_id) {
+    $.ajax({
+        url: '/api/end_video/' + vid_id + "/",
+        success: function(data) {
+
         }
-      }
+    });
+}
+
+function getNextVideo(event) {
+            $.ajax({
+                url: '/api/get_next_video/' + party_token + "/",
+                dataType: 'json',
+                success: function(data) {
+                    currentVideo = data.token;
+                    video_id = data.id;
+                    event.target.loadVideoById(data.token, 0, "default");
+                }
+            });
+}
+
+function onPlayerStateChange(event) {
+    if (event.data == 0 && !finished) {
+        endVideo(video_id);
+        getNextVideo(event);
+        finished = true;
+    }
+}
 
 </script>
 
 <p>Hello world. Really.</p>
+{% endblock %}
