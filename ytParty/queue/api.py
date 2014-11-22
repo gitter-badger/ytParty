@@ -52,7 +52,7 @@ def get_next_video(request, party_token):
     if videos:
         video = videos[0]
         video.status = 'R'
-        video.save
+        video.save()
         return None  # TODO: Should return serialized video
     else:
         raise Http404

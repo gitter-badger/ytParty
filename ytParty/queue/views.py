@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, render_to_response
 import string
 import random
 
-from models import Party, User
+from models import Party, User, Video
 
 TOKEN_SIZE = 5
 COOKIE_LIFETIME = 24 * 60 * 60
@@ -95,5 +95,32 @@ def party_view(request, party_token=None):
     return response
 
 
-def player_view(request):
-    pass
+def player_view(request, party_token=None, video_token='M7lc1UVf-VE'):
+    if party_token is None:
+        raise Http404
+
+    context = RequestContext(request)
+    template = loader.get_template('queue/player.html')
+
+    party = Party.objects.filter(token=party_token)
+    videos = Video.objects.filter(party_id=party).order_by('-votes')
+    try:
+        video = videos.get(status='R')
+    except Video.DoesNotExist:
+        video = None
+
+    if video is None and videos.count():
+        video = videos[0]
+        video.status = 'R'
+        video.save()
+        context_dict = {
+            'video_token': video.token,
+        }
+    else:
+        context_dict = {
+            'video_token': video_token,
+        }
+
+    response = render_to_response('queue/player.html', context_dict, context)
+
+    return response
