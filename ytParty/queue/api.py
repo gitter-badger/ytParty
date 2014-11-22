@@ -1,6 +1,8 @@
+from django.contrib.sessions import serializers
 from django.http import HttpResponse
 from django.http.response import Http404
 from django.shortcuts import get_object_or_404
+from django.core import serializers
 
 import json
 
@@ -11,8 +13,7 @@ def get_queue(request, party_token):
     print party_token
     party = Party.objects.get(token=party_token)
     all_videos = list(Video.objects.filter(party_id=party))
-    print all_videos
-    return HttpResponse(json.dumps(all_videos), content_type="application/json")
+    return HttpResponse(serializers.serialize("json", all_videos), content_type="application/json")
 
 
 def add_video(request, party_token, video_token, user_id):

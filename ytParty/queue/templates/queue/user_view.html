@@ -9,7 +9,8 @@
     {% block host_info %}
     {% endblock %}
     <script>
-        party_token = "{{ party_token }}";
+        party_token = "6KDBW";
+        //party_token = "{{ party_token }}";
         function reloadList(id) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
