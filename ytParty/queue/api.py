@@ -1,18 +1,23 @@
 from django.http import HttpResponse
+from django.http.response import Http404
 from django.shortcuts import get_object_or_404
 
 import json
 
-from models import Video
+from models import Video, Party
 
 
 def get_queue(request, party_token):
-    all_videos = list(Video.objects.filter(party_id=party_token))
+    print party_token
+    party = Party.objects.get(token=party_token)
+    all_videos = list(Video.objects.filter(party_id=party))
+    print all_videos
     return HttpResponse(json.dumps(all_videos), content_type="application/json")
 
 
 def add_video(request, party_token, video_token, user_id):
-    video = Video(party_id_id=party_token, token=video_token, user_id_id=user_id)
+    party = Party.objects.get(token=party_token)
+    video = Video(party_id=party, token=video_token, user_id_id=user_id)
     video.save()
     return HttpResponse('SUCCESS')
 
@@ -26,6 +31,7 @@ def upvote_video(request, party_token, video_id):
 
     return HttpResponse('FAILURE')
 
+
 def video_end(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
     video.status = 'F'
@@ -33,8 +39,10 @@ def video_end(request, video_id):
 
     return HttpResponse('SUKCES')
 
+
 def get_next_video(request, party_token):
-    videos = Video.objects.filter(party_id=party_token).order_by('-votes')
+    party = Party.objects.get(token=party_token)
+    videos = Video.objects.filter(party_id=party).order_by('-votes')
     try:
         video = videos.get(status='R')
         return video

@@ -12,7 +12,7 @@
         party_token = "{{ party_token }}";
         function reloadList(id) {
             $.ajax({
-                url: 'api/get_queue/' + party_token,
+                url: '/api/get_queue/' + party_token + "/",
                 success: function(data) {
                     alert("Data Saved: " + data);
                 }
