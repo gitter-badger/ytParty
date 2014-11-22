@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 )
 
 PROJECT_APPS = (
-    'ytQueue',
+    'queue',
 )
 
 INSTALLED_APPS += PROJECT_APPS
