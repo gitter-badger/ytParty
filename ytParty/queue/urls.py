@@ -16,8 +16,8 @@ urlpatterns = patterns(
     url(r'^api/get_queue/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_queue),
     url(r'^api/add_video/(?P<party_token>[a-zA-Z0-9]{5})/(?P<video_token>.{11})/(?P<user_id>\d+)/$',
         api.add_video),
-    url(r'^api/upvote_video/(?P<party_token>[a-zA-Z0-9]{5})/(?P<video_id>\d+)/$',
-        api.upvote_video),
+    url(r'^api/vote_video/(?P<video_id>\d+)/(?P<delta>\d+)/(?P<user_id>\d+)$',
+        api.vote_video),
     url(r'^api/get_next_video/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_next_video),
     url(r'^api/end_video/(?P<video_id>\d+)/$', api.video_end),
 )

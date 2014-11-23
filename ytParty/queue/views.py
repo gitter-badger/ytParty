@@ -1,5 +1,6 @@
 import string
 import random
+from django.core import serializers
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
@@ -81,22 +82,15 @@ def party_view(request, party_token=None):
     if party is None:
         return index_view(request)
 
-    context = RequestContext(request)
     user_existed, user = _create_and_or_get_user(request)
-
+    context = RequestContext(request)
     if user_existed and user == party.host_id:
         return host_view(request, context, party, user)
-
     context_dict = {
         'party_token': party.token,
-        'user_token': user.pk
+        'user_token': user.id
     }
-
-    response = render_to_response('queue/user_view.html', context_dict, context)
-    if not user_existed:
-        response.set_cookie('user_id', user.id, COOKIE_LIFETIME)
-
-    return response
+    return render_to_response('queue/user_view.html', context_dict, RequestContext(request))
 
 
 def player_view(request, party_token=None):
@@ -113,7 +107,7 @@ def player_view(request, party_token=None):
     except:
         video = None
 
-    if video is None:
+    if video is None and videos:
         video = videos[0]
         video.status = 'P'
         video.save()
@@ -129,7 +123,7 @@ def player_view(request, party_token=None):
             'video_id': video.id,
         }
     else:
-        video = Video
+        video = Video()
         video.party_id = party
         video.token = 'o9UQSUHHdtA'
         video.status = 'Q'

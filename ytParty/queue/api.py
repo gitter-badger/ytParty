@@ -6,7 +6,7 @@ from django.core import serializers
 
 import json
 
-from models import Video, Party
+from models import Video, Party, UserVote, User, UserParty
 
 
 def get_queue(request, party_token):
@@ -28,6 +28,7 @@ def get_queue(request, party_token):
 
     return HttpResponse(json.dumps(videos), content_type="application/json")
 
+
 def add_video(request, party_token, video_token, user_id):
     party = Party.objects.get(token=party_token)
     video = Video(party_id=party, token=video_token, user_id_id=user_id, status='Q')
@@ -35,14 +36,30 @@ def add_video(request, party_token, video_token, user_id):
     return HttpResponse('SUCCESS')
 
 
-def upvote_video(request, party_token, video_id):
+def vote_video(request, video_id, delta, user_id):
     video = get_object_or_404(Video, pk=video_id)
-    if video.status is not 'F':
-        video.votes += 1
-        video.save()
-        return HttpResponse('SUCCESS')
-
-    return HttpResponse('FAILURE')
+    if video.status is 'F':
+        return HttpResponse('FAILURE')
+    if delta != 1 or delta != -1:
+        return HttpResponse('FAILURE')
+    old_vote = UserVote.objects.get(user_id=user_id, video_id=video_id)
+    if old_vote is None:
+        vote = UserVote(user_id, video_id, delta)
+        video.votes += delta
+    elif old_vote.delta == 1:
+        if delta == 1:
+            return HttpResponse('FAILURE')
+        else:
+            old_vote.delete()
+            video.votes -= 1
+    else:
+        if delta == -1:
+            return HttpResponse('FAILURE')
+        else:
+            old_vote.delete()
+            video.votes += 1
+    video.save()
+    return HttpResponse('SUCCESS')
 
 
 def video_end(request, video_id):
@@ -59,7 +76,7 @@ def get_next_video(request, party_token):
 
     try:
         video = videos.get(status='P')
-        data = { 'token': video.token, 'id': video.id}
+        data = {'token': video.token, 'id': video.id}
         return HttpResponse(json.dumps(data))
     except Video.DoesNotExist:
         pass
@@ -68,7 +85,7 @@ def get_next_video(request, party_token):
         video = videos[0]
         video.status = 'P'
         video.save()
-        data = { 'token': video.token, 'id': video.id}
+        data = {'token': video.token, 'id': video.id}
         return HttpResponse(json.dumps(data))
     else:
         raise Http404

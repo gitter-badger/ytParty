@@ -44,7 +44,14 @@ class UserParty(models.Model):
     party_id = models.ForeignKey(Party)
 
 
+class UserVote(models.Model):
+    user = models.ForeignKey(User)
+    video = models.ForeignKey(Video)
+    delta = models.IntegerField(choices=(-1, 1))
+
+
 admin.site.register(User)
 admin.site.register(Party)
 admin.site.register(Video)
 admin.site.register(UserParty)
+admin.site.register(UserVote)
