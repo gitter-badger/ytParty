@@ -15,6 +15,9 @@ class Party(models.Model):
     )
     status = models.CharField(max_length=1, choices=PARTY_STATUS)
 
+    def __unicode__(self):
+        return str(self.token)
+
 
 class Video(models.Model):
     party_id = models.ForeignKey(Party)
@@ -29,8 +32,11 @@ class Video(models.Model):
     )
     status = models.CharField(max_length=1, choices=VIDEO_STATUS, default='Q')
 
+    def __unicode__(self):
+        return str(self.token) + " " + str(self.party_id) + " " + self.status;
 
-class UserParties(models.Model):
+
+class UserParty(models.Model):
     user_id = models.ForeignKey(User)
     party_id = models.ForeignKey(Party)
 
@@ -38,4 +44,4 @@ class UserParties(models.Model):
 admin.site.register(User)
 admin.site.register(Party)
 admin.site.register(Video)
-admin.site.register(UserParties)
+admin.site.register(UserParty)
