@@ -15,14 +15,16 @@ $("#youtube").autocomplete({
     }
 });
 $.youtubeAPI = function(kelime) {
-    var sonuc = $('#sonuc');
-    sonuc.html('Searching...');
+    $('#spinner').show();
+    $('#sonuc').css({opacity: 0.2});
     $.ajax({
         type: 'GET',
-        url: 'http://gdata.youtube.com/feeds/api/videos?q=' + kelime + '&max-results=15&v=2&alt=jsonc',
+        url: 'http://gdata.youtube.com/feeds/api/videos?q=' + kelime + '&max-results=5&v=2&alt=jsonc',
         dataType: 'jsonp',
         success: function(veri) {
-            sonuc.empty();
+            $('#spinner').hide();
+            $('#sonuc').empty();
+            $('#sonuc').css({opacity: 1.0});
             $.each(veri.data.items, function(i, data) {
                 $.youtubeAppend(data.id, "sonuc");
             });
