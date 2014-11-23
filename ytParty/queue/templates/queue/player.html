@@ -59,6 +59,11 @@ function getNextVideo(event) {
                     currentVideo = data.token;
                     video_id = data.id;
                     event.target.loadVideoById(data.token, 0, "default");
+                },
+                error: function(data) {
+                    setTimeout(function() {
+                        getNextVideo(event)
+                    }, 2000);
                 }
             });
 }
@@ -66,7 +71,9 @@ function getNextVideo(event) {
 function onPlayerStateChange(event) {
     if (event.data == 0) {
         endVideo(video_id);
-        getNextVideo(event);
+        setTimeout(function() {
+            getNextVideo(event);
+        }, 500);
     }
 }
 
