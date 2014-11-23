@@ -3,7 +3,8 @@
     {% load staticfiles %}
 {% endblock %}
 {% block body %}
-    {% block host_info %}
+    {% block hb %}
+        <h1>Share <a href="http://0.0.0.0:8080/party/{{ party_token }}">the link</a> to your party</h1>
     {% endblock %}
     <div id="viewer_container" class="container-fluid">
         <div class="row">
