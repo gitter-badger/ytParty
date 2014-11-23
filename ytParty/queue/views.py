@@ -30,11 +30,14 @@ def _create_and_or_get_user(request):
     return (False, user)
 
 
-def _create_party(user):
+def _create_party(user, party_name=None):
     party = Party()
     party.host_id = user
     party.status = 'P'
-    party.token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(TOKEN_SIZE))
+    if party_name:
+        party.token = party_name
+    else:
+        party.token = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(TOKEN_SIZE))
     party.save()
     return party
 
@@ -46,11 +49,12 @@ def index_view(request):
     return HttpResponse(template.render(RequestContext(request)))
 
 
-def create_party_view(request):
+def create_party_view(request, party_name=None):
     context = RequestContext(request)
 
     user_existed, user = _create_and_or_get_user(request)
-    party = _create_party(user)
+    party = _create_party(user, party_name)
+
 
     context_dict = {
         'party_token': party.token,

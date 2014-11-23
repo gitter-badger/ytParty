@@ -11,7 +11,7 @@ class User(models.Model):
 
 class Party(models.Model):
     host_id = models.ForeignKey(User)
-    token = models.CharField(max_length=5, primary_key=True)
+    token = models.CharField(max_length=10, primary_key=True)
     PARTY_STATUS = (
         ('R', 'Running'),
         ('P', 'Paused'),

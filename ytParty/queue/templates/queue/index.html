@@ -1,14 +1,55 @@
 {% extends "queue/base.html" %}
+{% load static %}
 {% load bootstrap3 %}
 {% block body %}
-    <form class="form-horizontal" role="form">
-        <input type="button" value="To Title Page" onClick="location.href='/create_party/'">
-    </form>
-    <form class="form-horizontal" role="form" id="form2">
-        <input type="text" placeholder="Or place here the token of existing one" id="join">
-    </form>
-    </form>
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <img src="{% static 'youtube_parties.png' %}" class="picture" />
+<br>
+<h4 class="text-area">
+Turn your computer into a jukebox with remote access! Let your guests choose music from their phones! Or just have a good old youtube party, just without people fighting over who gets to choose the next video!
+</h4>
+<br>
+<div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <div class="col-md-6">
+So host a new party now:
+                <form class="form" role="form">
+                    <input type="text" class="sexy" placeholder="Name" id="host"><br>
+                    <input type="button" class="btn btn-warning" value="New Party!" onClick="submitHost()">
+                </form>
+            </div>
+            <div class="col-md-6">
+Or join an existing one:
+                <form class="form" role="form" id="form2">
+                    <input type="text" class="sexy" placeholder="Token" id="join"><br>
+                    <input type="button" class="btn btn-warning" value="Join!" onClick="submitForm()">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     <script>
+    function submitHost() {
+        var name = document.getElementById("host").value;
+        if (name == "") {
+            window.location = "/create_party/";
+        } else {
+            window.location = "/create_party/" + name + "/";
+        }
+    }  
+    function submitForm() {
+        var url = document.getElementById("join").value;
+        if (url == "") {
+            window.location = "/";
+        } else {
+            window.location = "/party/" + url + "/";
+        }
+    }  
         $("#join").keyup(function(event) {
             console.log(event);
             if (event.keyCode == 13) {

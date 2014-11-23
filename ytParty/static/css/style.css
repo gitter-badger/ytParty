@@ -162,3 +162,16 @@ body {
 .left-col {
     padding-right : 100px;
 }
+
+.picture {
+    margin-top: 5%;
+}
+
+.text-area {
+    font-weight: 400;
+}
+
+.sexy {
+    background-color: #000;
+    margin-bottom: 10px;
+}

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
                        url(r'^player/(?P<party_token>\w+)/$', views.player_view),
                        url(r'^party/(?P<party_token>\w+)/$', views.party_view, name='party'),
                        url(r'^create_party/$', views.create_party_view, name='party_creation_view'),
+                       url(r'^create_party/(?P<party_name>\w+)/$', views.create_party_view, name='party_creation_view'),
 
                        # api urls
 
