@@ -3,7 +3,7 @@
     {% load staticfiles %}
 {% endblock %}
 {% block body %}
-    Cześć : {{ party_token }}
+    <h3 style="text-align: center">Cześć : {{ party_token }}</h3>
     {% block host_info %}
     {% endblock %}
 
@@ -13,9 +13,19 @@
         </ul>
     </div>
     <div id="youtube_list_2" class="col-md-6" style="display: inline">
-        <ul>
-            <li>Dupa</li>
-        </ul>
+        <div class="arama">
+            <form action="" onsubmit="return false">
+                <h2>Youtube API jQuery AutoComplete</h2>
+
+                <div class="ui-widget">
+                    <label for="youtube">Youtube Arama: </label>
+                    <input id="youtube"/>
+                    <button id="submit">ARA</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="sonuc"></div>
     </div>
     <style>
         .actual {
@@ -48,8 +58,9 @@
     </style>
     <script>
         party_token = "{{ party_token }}";
+        user_token = "{{ user_token }}";
         var old_data = {};
-        function reloadList(id) {
+        function reloadList(id, $) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
                 success: function(data) {
@@ -78,8 +89,9 @@
             });
         }
         window.setInterval(function() {
-            reloadList("youtube_list")
+            reloadList("youtube_list", jQuery)
         }, 500);
     </script>
+    <script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
 {% endblock %}
 

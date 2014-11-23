@@ -1,12 +1,13 @@
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from django.http import HttpResponse
-from django.template import RequestContext, loader
-from django.shortcuts import render, redirect, render_to_response
-
 import string
 import random
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
+from django.http.response import Http404
+from django.template import RequestContext, loader
+from django.shortcuts import render_to_response
 from models import Party, User, Video
+
 
 TOKEN_SIZE = 5
 COOKIE_LIFETIME = 24 * 60 * 60
@@ -86,6 +87,7 @@ def party_view(request, party_token=None):
 
     context_dict = {
         'party_token': party.token,
+        'user_token': user.pk
     }
 
     response = render_to_response('queue/user_view.html', context_dict, context)
