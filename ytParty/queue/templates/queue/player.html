@@ -1,9 +1,13 @@
 {% extends "queue/base.html" %}
-{% load bootstrap3 %}
 
 {% block body %}
+<style type="text/css">
+body {
+        overflow:hidden;
+}
+</style>
 <!-- 16:9 aspect ratio -->
-<div id="player" class="embed-responsive embed-responsive-16by9"></div>
+<div id="player" class="embed-responsive-16by9"></div>
 
 <script>
     var party_token = '{{ party_token }}';
@@ -18,8 +22,8 @@
     var player;
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            height: '390',
-            width: '640',
+            height: $(window).innerHeight(),
+            width: $(window).innerWidth(),
             videoId: currentVideo,
             events: {
                 'onReady': onPlayerReady,
@@ -34,6 +38,10 @@ function onPlayerReady(event) {
     event.target.playVideo();
     finished = false;
 }
+
+$(window).resize(function(){
+    player.setSize($(window).innerWidth(), $(window).innerHeight());
+});
 
 function endVideo(vid_id) {
     $.ajax({
@@ -65,6 +73,4 @@ function onPlayerStateChange(event) {
 }
 
 </script>
-
-<p>Hello world. Really.</p>
 {% endblock %}

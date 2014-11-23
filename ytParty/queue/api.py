@@ -10,7 +10,6 @@ from models import Video, Party
 
 
 def get_queue(request, party_token):
-    print party_token
     party = Party.objects.get(token=party_token)
     all_videos = Video.objects.filter(party_id=party).order_by('-time_added').order_by('-votes')
 
@@ -48,10 +47,8 @@ def upvote_video(request, party_token, video_id):
 
 def video_end(request, video_id):
     video = get_object_or_404(Video, pk=video_id)
-    print video.status
     video.status = 'F'
     video.save()
-    print video.status
 
     return HttpResponse('SUCCESS')
 
@@ -69,10 +66,8 @@ def get_next_video(request, party_token):
 
     if videos:
         video = videos[0]
-        print video.status
         video.status = 'P'
         video.save()
-        print video.status
         data = { 'token': video.token, 'id': video.id}
         return HttpResponse(json.dumps(data))
     else:
