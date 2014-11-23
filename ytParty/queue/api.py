@@ -90,3 +90,14 @@ def get_next_video(request, party_token):
         return HttpResponse(json.dumps(data))
     else:
         raise Http404
+
+def get_current_video(request, party_token=None):
+    if party_token is None:
+        return ("FAILURE")
+
+    party = Party.objects.get(token=party_token)
+    try:
+        video = Video.objects.filter(party_id=party).get(status='P')
+        return HttpResponse(video.token)
+    except:
+        return HttpResponse("FAILURE")

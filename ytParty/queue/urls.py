@@ -20,4 +20,5 @@ urlpatterns = patterns('',
                            api.vote_video),
                        url(r'^api/get_next_video/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_next_video),
                        url(r'^api/end_video/(?P<video_id>\d+)/$', api.video_end),
+                       url(r'^api/get_current/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_current_video),
 )

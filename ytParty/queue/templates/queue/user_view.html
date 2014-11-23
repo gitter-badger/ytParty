@@ -12,6 +12,8 @@
                 <h1>Token: {{ party_token }}</h1>
 
                 <h1>Aktualnie gramy:</h1>
+                <div id="current-video">
+                </div>
 
                 <h1>Wyszukiwarka:</h1>
 
@@ -64,8 +66,25 @@
                 }
             });
         }
+        var current_video = "";
+        function reloadCurrent($) {
+            $.ajax({
+                url:'/api/get_current/' + party_token + "/",
+                success: function(data) {
+                    if (data != current_video && data != 'FAILURE') {
+                        $('#current-video').empty();
+                        $.youtubeAppend(data, 'current-video');
+                        current_video = data;
+                    }
+                    if (data == 'FAILURE') {
+                        $('#current-video').html("NIC!");
+                    }
+                }
+            });
+        }
         window.setInterval(function() {
-            reloadList("youtube_list", jQuery)
+            reloadList("youtube_list", jQuery);
+            reloadCurrent(jQuery);
         }, 900);
     </script>
     <script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
