@@ -12,6 +12,7 @@
                 <h1>Token: {{ party_token }}</h1>
 
                 <h1>Aktualnie gramy:</h1>
+
                 <div id="current-video">
                 </div>
 
@@ -96,7 +97,7 @@
         var current_video = "";
         function reloadCurrent($) {
             $.ajax({
-                url:'/api/get_current/' + party_token + "/",
+                url: '/api/get_current/' + party_token + "/",
                 success: function(data) {
                     if (data != current_video && data != 'FAILURE') {
                         $('#current-video').empty();
@@ -117,7 +118,7 @@
     </script>
     <script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
     <script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/pdfHelper.js" %}"></script>
+    <!---<script type="text/javascript" src="{% static "js/pdfHelper.js" %}"></script>-->
     </div>
 {% endblock %}
 
