@@ -47,7 +47,7 @@ class UserParty(models.Model):
 class UserVote(models.Model):
     user = models.ForeignKey(User)
     video = models.ForeignKey(Video)
-    delta = models.IntegerField(choices=(-1, 1))
+    delta = models.IntegerField(choices=((-1, "minus"), (1, "plus")))
 
 
 admin.site.register(User)
