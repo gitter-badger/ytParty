@@ -2,12 +2,19 @@
 {% load bootstrap3 %}
 {% block body %}
     <form class="form-horizontal" role="form">
-        <div class="form-row">
-            <INPUT type="button" value="To Title Page" onClick="location.href='/create_party/'">
-        </div>
-        <div class=" form-row">
-        <input type="text" placeholder="Or place here the token of existing one">
-        </div>
+        <input type="button" value="To Title Page" onClick="location.href='/create_party/'">
     </form>
+    <form class="form-horizontal" role="form" id="form2">
+        <input type="text" placeholder="Or place here the token of existing one" id="join">
+    </form>
+    </form>
+    <script>
+        $("#join").keyup(function(event) {
+            console.log(event);
+            if (event.keyCode == 13) {
+                $("#form2").attr("action", "/party/" + $("#join").val()).submit();
+            }
+        })
+    </script>
 {% endblock %}
 

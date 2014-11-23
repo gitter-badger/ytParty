@@ -40,6 +40,8 @@ def _create_party(user):
 
 
 def index_view(request):
+    if request.method == 'POST':
+        print request.POST
     template = loader.get_template('queue/index.html')
     return HttpResponse(template.render(RequestContext(request)))
 
