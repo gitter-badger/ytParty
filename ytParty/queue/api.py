@@ -11,7 +11,7 @@ from models import Video, Party, UserVote, User, UserParty
 
 def get_queue(request, party_token, user_id):
     party = Party.objects.get(token=party_token)
-    all_videos = Video.objects.filter(party_id=party).order_by('-time_added').order_by('-votes')
+    all_videos = Video.objects.filter(party_id=party, status='Q').order_by('-time_added').order_by('-votes')
     counter = 1;
     videos = []
     for video in all_videos:

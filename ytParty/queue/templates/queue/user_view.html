@@ -3,36 +3,44 @@
     {% load staticfiles %}
 {% endblock %}
 {% block body %}
-    {{ party_token }}
     {% block host_info %}
     {% endblock %}
+    <div id="viewer_container" class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
 
-    <div id="viewer_container" class="col-md-11">
-        <div class="col-md-5" id="left-cont">
+            <h1>Token: {{ party_token }}</h1>
+            <h1>Aktualnie gramy:</h1>
+                <h1>Wyszukiwarka:</h1>
+
+                <form action="" onsubmit="return false">
+                    <div class="ui-widget">
+                        <input id="youtube" class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    </div>
+                </form>
+
+            <div id="little-container">
+                <div id="spinner" style="display: none;">
+                    <img id="img-spinner" src="{% static 'ajax-loader.gif' %}" class="center-block" alt="Loading..."/>
+                </div>
+
+                <div id="sonuc">
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
             <h1>Następne w kolejce:</h1>
-
-            <div id="youtube_list" class="col-md-11">
+            <div id="youtube_list">
                 <ul>
 
                 </ul>
             </div>
         </div>
-        <div class="col-md-5" id="right-cont">
-            <div id="headline-right" class="col-md-12">
-                <form action="" onsubmit="return false">
-                    <h2>Youtube API jQuery AutoComplete</h2>
 
-                    <div class="ui-widget">
-                        <label for="youtube">Youtube Arama: </label>
-                        <input id="youtube"/>
-                    </div>
-                </form>
-            </div>
-            <div id="youtube_list_2" class="col-md-12">
-                <div id="sonuc"></div>
-            </div>
-        </div>
     </div>
+    </div>
+
     <script>
         party_token = "{{ party_token }}";
         user_token = "{{ user_token }}";

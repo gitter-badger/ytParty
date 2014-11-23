@@ -36,7 +36,6 @@ var finished = false;
 function onPlayerReady(event) {
     event.target.setVolume(0);
     event.target.playVideo();
-    finished = false;
 }
 
 $(window).resize(function(){
@@ -65,10 +64,9 @@ function getNextVideo(event) {
 }
 
 function onPlayerStateChange(event) {
-    if (event.data == 0 && !finished) {
+    if (event.data == 0) {
         endVideo(video_id);
         getNextVideo(event);
-        finished = true;
     }
 }
 
