@@ -12,7 +12,8 @@
         $("#join").keyup(function(event) {
             console.log(event);
             if (event.keyCode == 13) {
-                $("#form2").attr("action", "/party/" + $("#join").val()).submit();
+                $("#form2").attr("action", "/party/" + $("#join").val());
+                $("#form2").submit();
             }
         })
     </script>

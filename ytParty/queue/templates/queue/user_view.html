@@ -8,12 +8,13 @@
     {% endblock %}
 
     <div id="youtube_list" class="col-md-6">
+        <h2>Track queue</h2>
         <ul>
 
         </ul>
     </div>
     <div id="youtube_list_2" class="col-md-6">
-    <div class="arama">
+        <div class="arama">
             <form action="" onsubmit="return false">
                 <h2>Youtube API jQuery AutoComplete</h2>
 
@@ -23,47 +24,18 @@
                 </div>
             </form>
         </div>
-
         <div id="sonuc"></div>
     </div>
-    <style>
-        .actual {
-            background-color : #238002;
-        }
-
-        .finished {
-            background-color : #c884ff;
-        }
-
-        .queued {
-            background-color : #ffd829;
-        }
-
-        .divForElment {
-            margin        : 20px;
-            border-radius : 5px;
-        }
-
-        .imageY {
-            padding : 5px;
-        }
-
-        .textTitle {
-            display      : inline;
-            position     : relative;
-            bottom       : 40px;
-            padding-left : 50px;
-        }
-    </style>
     <script>
         party_token = "{{ party_token }}";
         user_token = "{{ user_token }}";
-        var old_data = {};
+        var old_data = [];
         function reloadList(id, $) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
                 success: function(data) {
                     if (JSON.stringify(data) != JSON.stringify(old_data)) {
+                        console.log(data);
                         $('#' + id).empty();
                         data.forEach(function(model) {
                             $.youtubeAppend(model.token, id);
