@@ -104,7 +104,7 @@ def player_view(request, party_token=None):
     template = loader.get_template('queue/player.html')
 
     party = Party.objects.filter(token=party_token)
-    videos = Video.objects.filter(party_id=party).order_by('-votes')
+    videos = Video.objects.filter(party_id=party).exclude(status='F').order_by('-votes')
     try:
         video = videos.get(status='P')
     except:
@@ -126,16 +126,7 @@ def player_view(request, party_token=None):
             'video_id': video.id,
         }
     else:
-        video = Video()
-        video.party_id = party
-        video.token = 'o9UQSUHHdtA'
-        video.status = 'Q'
-        video.save()
-        context_dict = {
-            'video_token': video.token,
-            'party_token': party_token,
-            'video_id': 0,
-        }
+        return HttpResponse('Dodaj filmy do kolejki i odswiez!')
 
     response = render_to_response('queue/player.html', context_dict, context)
 
