@@ -83,10 +83,12 @@
                             }
                             console.log(likes);
                             if (likes == 0) {
-                                $(this).append($("<button>").addClass("btn-like").text("Like").click(cl));
+                                _link = $("<a>").addClass("myButton").html("Like").click(cl);
+                                $(this).append($("<div class='col-md-2'>").append(_link));
                             }
                             else {
-                                $(this).append($("<button>").addClass("btn-like").text("Dislike").click(cl));
+                                _link = $("<a>").addClass("myButton").html("Dislike").click(cl);
+                                $(this).append($("<div class='col-md-2'>").append(_link));
                             }
                         });
                         old_data = data;
