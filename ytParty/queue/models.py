@@ -5,6 +5,9 @@ from django.contrib import admin
 class User(models.Model):
     name = models.CharField(max_length=16, null=True)
 
+    def __unicode__(self):
+        return "pk: " + str(self.pk) + " name: " + str(self.name)
+
 
 class Party(models.Model):
     host_id = models.ForeignKey(User)

@@ -1,36 +1,38 @@
 {% extends "queue/base.html" %}
-{% load bootstrap3 %}
 {% block head %}
     {% load staticfiles %}
-    <link rel="stylesheet" src="{% static "style.css" %}">
 {% endblock %}
 {% block body %}
-    Czesc.
-    Party token to: {{ party_token }}
+    Cześć : {{ party_token }}
     {% block host_info %}
     {% endblock %}
-    <div id="youtube_list">
+
+    <div id="youtube_list" class="col-md-6">
         <ul>
 
         </ul>
     </div>
+    <div id="youtube_list_2" class="col-md-6" style="display: inline">
+        <ul>
+            <li>Dupa</li>
+        </ul>
+    </div>
     <style>
         .actual {
-            background-color : #008000;
+            background-color : #238002;
         }
 
         .finished {
-            background-color : #ffff00;
+            background-color : #c884ff;
         }
 
         .queued {
-            background-color : #0000ff;
+            background-color : #ffd829;
         }
 
         .divForElment {
-            margin           : 20px;
-            background-color : cornflowerblue;
-            border-radius    : 5px;
+            margin        : 20px;
+            border-radius : 5px;
         }
 
         .imageY {
@@ -45,48 +47,40 @@
         }
     </style>
     <script>
-        $.extend({
-            jYoutube: function(url, size) {
-                if (url === null) {
-                    return "";
-                }
 
-                size = (size === null) ? "big" : size;
-                var vid;
-                var results;
-
-                results = url.match("[\?&amp;]v=([^&amp;#]*)");
-
-                vid = ( results === null ) ? url : results[1];
-
-                if (size == "small") {
-                    return "http://img.youtube.com/vi/" + vid + "/2.jpg";
-                } else {
-                    return "http://img.youtube.com/vi/" + vid + "/0.jpg";
-                }
-            }
-        });
         party_token = "{{ party_token }}";
+        var old_data = {};
         function reloadList(id) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
-                dataType: 'json',
-                success: function(data) { 
-                    data.forEach(function(model) {
-                        var video_id = model.token;
-                        url = $.jYoutube(video_id)
-                        $.getJSON('http://gdata.youtube.com/feeds/api/videos/' + video_id + '?v=2&alt=jsonc', function(data, status, xhr) {
-                            json_data = data.data;
-                            title = $("<p>").text(json_data.title).addClass("textTitle");
-                            image = $("<img>").attr('src', json_data.thumbnail.sqDefault).addClass("imageY");
-
-                            $("<div>").addClass("divForElment").append(image).append(title).appendTo('#' + id);
+                success: function(data) {
+                    if (JSON.stringify(data) != JSON.stringify(old_data)) {
+                        $('#' + id).empty();
+                        data.forEach(function(model) {
+                            var video_id = model.token;
+                            $.getJSON('http://gdata.youtube.com/feeds/api/videos/' + video_id + '?v=2&alt=jsonc', function(data, status, xhr) {
+                                json_data = data.data;
+                                title = $("<p>").text(json_data.title).addClass("textTitle");
+                                image = $("<img>").attr('src', json_data.thumbnail.sqDefault).addClass("imageY");
+                                div = $("<div>").addClass("divForElment").append(image).append(title);
+                                if (model.status == "Q") {
+                                    div.addClass("queued");
+                                } else if (model.status == "R") {
+                                    div.addClass("actual");
+                                } else {
+                                    div.addClass("finished");
+                                }
+                                div.appendTo('#' + id);
+                            });
                         });
-                    });
+                        old_data = data;
+                    }
                 }
             });
         }
-        window.setInterval(reloadList("youtube_list"), 500);
+        window.setInterval(function() {
+            reloadList("youtube_list")
+        }, 500);
     </script>
 {% endblock %}
 
