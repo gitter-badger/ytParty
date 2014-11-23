@@ -3,40 +3,42 @@
     {% load staticfiles %}
 {% endblock %}
 {% block body %}
-    {{ party_token }}
     {% block host_info %}
     {% endblock %}
 
-    <div id="viewer_container" class="col-md-11">
-        <div class="col-md-5" id="left-cont">
-            <h1>Aktualnie grany:</h1>
-            <div id="currently_played" class="col-md-11">
+    <div id="viewer_container" class="container-fluid">
 
-            </div>
+        <div class="col-md-6">
             <h1>Następne w kolejce:</h1>
-
-            <div id="youtube_list" class="col-md-11">
+            <div id="youtube_list">
                 <ul>
 
                 </ul>
             </div>
         </div>
-        <div class="col-md-5" id="right-cont">
-            <div id="headline-right" class="col-md-12">
-                <form action="" onsubmit="return false">
-                    <h2>Youtube API jQuery AutoComplete</h2>
 
+        <div class="col-md-6">
+
+            <h1>Token:</h1>
+            {{ party_token }}
+            <h1>Aktualnie grany:</h1>
+                <h1>Youtube API jQuery AutoComplete</h1>
+
+                <form action="" onsubmit="return false">
                     <div class="ui-widget">
                         <label for="youtube">Youtube Arama: </label>
                         <input id="youtube"/>
                     </div>
                 </form>
-            </div>
-            <div id="youtube_list_2" class="col-md-12">
+
+            <div id="youtube_list_2">
                 <div id="sonuc"></div>
             </div>
+
         </div>
+
     </div>
+
     <script>
         party_token = "{{ party_token }}";
         user_token = "{{ user_token }}";
