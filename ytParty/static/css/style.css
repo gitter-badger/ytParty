@@ -62,3 +62,45 @@
     height   : 100%;
     position : absolute;
 }
+
+.btn-like {
+    display          : inline-block;
+    padding          : 6px 12px;
+    margin-bottom    : 0;
+    font-size        : 14px;
+    font-weight      : normal;
+    line-height      : 1.42857143;
+    text-align       : center;
+    white-space      : nowrap;
+    vertical-align   : middle;
+    cursor           : pointer;
+    user-select      : none;
+    background-image : none;
+    border           : 1px solid transparent;
+    border-radius    : 4px;
+    color            : green;
+    margin           : 5px;
+}
+
+.btn-dislike {
+    display          : inline-block;
+    padding          : 6px 12px;
+    margin-bottom    : 0;
+    font-size        : 14px;
+    font-weight      : normal;
+    line-height      : 1.42857143;
+    text-align       : center;
+    white-space      : nowrap;
+    vertical-align   : middle;
+    cursor           : pointer;
+    user-select      : none;
+    background-image : none;
+    border           : 1px solid transparent;
+    border-radius    : 4px;
+    color            : #ff0000;
+    margin           : 5px;
+}
+
+.btn-active {
+    border-radius : 10px;
+}

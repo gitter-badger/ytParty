@@ -6,11 +6,13 @@
     {% block host_info %}
     {% endblock %}
     <div id="viewer_container" class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+        <div class="row">
+            <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
 
-            <h1>Token: {{ party_token }}</h1>
-            <h1>Aktualnie gramy:</h1>
+                <h1>Token: {{ party_token }}</h1>
+
+                <h1>Aktualnie gramy:</h1>
+
                 <h1>Wyszukiwarka:</h1>
 
                 <form action="" onsubmit="return false">
@@ -19,26 +21,25 @@
                     </div>
                 </form>
 
-            <div id="little-container">
-                <div id="spinner" style="display: none;">
-                    <img id="img-spinner" src="{% static 'ajax-loader.gif' %}" class="center-block" alt="Loading..."/>
+                <div id="little-container">
+                    <div id="spinner" style="display: none;">
+                        <img id="img-spinner" src="{% static 'ajax-loader.gif' %}" class="center-block"
+                             alt="Loading..."/>
+                    </div>
+
+                    <div id="sonuc">
+                    </div>
                 </div>
 
-                <div id="sonuc">
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
+                <h1>Następne w kolejce:</h1>
+
+                <div id="youtube_list">
                 </div>
             </div>
 
         </div>
-        <div class="col-md-6 col-xs-6 col-sm-6 col-lg-6">
-            <h1>Następne w kolejce:</h1>
-            <div id="youtube_list">
-                <ul>
-
-                </ul>
-            </div>
-        </div>
-
-    </div>
     </div>
 
     <script>
@@ -52,24 +53,29 @@
                     if (JSON.stringify(data) != JSON.stringify(old_data)) {
                         $('#' + id).empty();
                         data.forEach(function(model) {
+                            console.log(model);
                             $.youtubeAppend(model.token, id, model.id, model.likes);
                         });
                         $("#" + id + " > div").each(function() {
-                            $(this).append($("<button>").text("Like").addClass("btn btn-success").click(function() {
-                                inp = $(this).parent().children("input");
-                                if ($(this).hasClass("btn-success")) {
-                                    $(this).removeClass("btn-success").addClass("btn-error");
-                                    $(this).text("Dislike");
-                                    url = "/api/vote_video/" + inp[0].val() + "/1/" + user_token;
-                                    console.log({url: url});
-                                    $.get(url);
+                            like = $("<button>").text("Like").addClass("btn-like");
+                            $(this).appendTo(like);
+                            dislike = $("<button>").text("Dislike").addClass("btn-dislike");
+                            $(this).appendTo(dislike);
+                            like.click(function() {
+                                if (like.hasClass("btn-active")) {
+                                    like.removeClass("btn-active");
                                 } else {
-                                    $(this).removeClass("btn-warning").addClass("btn-success");
-                                    $(this).text("Like");
-                                    url = "/api/vote_video/" + inp[0].val() + "/-1/" + user_token;
-                                    $.get(url);
+                                    like.addClass("btn-active");
                                 }
-                            }));
+                            });
+                            dislike.click(function() {
+                                if (like.hasClass("btn-active")) {
+                                    like.removeClass("btn-active");
+
+                                } else {
+                                    like.addClass("btn-active");
+                                }
+                            });
                         });
                         old_data = data;
                     }
