@@ -39,13 +39,29 @@
         var old_data = [];
         function reloadList(id, $) {
             $.ajax({
-                url: '/api/get_queue/' + party_token + "/",
+                url: '/api/get_queue/' + party_token + "/" + user_token,
                 success: function(data) {
                     if (JSON.stringify(data) != JSON.stringify(old_data)) {
-                        console.log(data);
                         $('#' + id).empty();
                         data.forEach(function(model) {
-                            $.youtubeAppend(model.token, id);
+                            $.youtubeAppend(model.token, id, model.id, model.likes);
+                        });
+                        $("#" + id + " > div").each(function() {
+                            $(this).append($("<button>").text("Like").addClass("btn btn-success").click(function() {
+                                inp = $(this).parent().children("input");
+                                if ($(this).hasClass("btn-success")) {
+                                    $(this).removeClass("btn-success").addClass("btn-error");
+                                    $(this).text("Dislike");
+                                    url = "/api/vote_video/" + inp[0].val() + "/1/" + user_token;
+                                    console.log({url: url});
+                                    $.get(url);
+                                } else {
+                                    $(this).removeClass("btn-warning").addClass("btn-success");
+                                    $(this).text("Like");
+                                    url = "/api/vote_video/" + inp[0].val() + "/-1/" + user_token;
+                                    $.get(url);
+                                }
+                            }));
                         });
                         old_data = data;
                     }
@@ -54,7 +70,7 @@
         }
         window.setInterval(function() {
             reloadList("youtube_list", jQuery)
-        }, 500);
+        }, 900);
     </script>
     <script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
     <script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
