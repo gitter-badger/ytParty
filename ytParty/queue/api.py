@@ -12,13 +12,26 @@ from models import Video, Party
 def get_queue(request, party_token):
     print party_token
     party = Party.objects.get(token=party_token)
-    all_videos = list(Video.objects.filter(party_id=party))
-    return HttpResponse(serializers.serialize("json", all_videos), content_type="application/json")
+    all_videos = Video.objects.filter(party_id=party).order_by('-time_added').order_by('-votes')
 
+    counter = 1;
+    videos = []
+    for video in all_videos:
+        vid = {
+            'votes': video.votes,
+            'token': video.token,
+            'user_id': video.user_id.id,
+            'status': video.status,
+            'rank': counter,
+        }
+        videos.append(vid)
+        counter = counter + 1
+
+    return HttpResponse(json.dumps(videos), content_type="application/json")
 
 def add_video(request, party_token, video_token, user_id):
     party = Party.objects.get(token=party_token)
-    video = Video(party_id=party, token=video_token, user_id_id=user_id)
+    video = Video(party_id=party, token=video_token, user_id_id=user_id, status='Q')
     video.save()
     return HttpResponse('SUCCESS')
 

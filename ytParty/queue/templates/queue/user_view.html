@@ -66,19 +66,18 @@
                 }
             }
         });
-        party_token = "6KDBW";
-        //party_token = "{{ party_token }}";
+        party_token = "{{ party_token }}";
         function reloadList(id) {
             $.ajax({
                 url: '/api/get_queue/' + party_token + "/",
-                success: function(data) {
+                dataType: 'json',
+                success: function(data) { 
                     data.forEach(function(model) {
-                        var video_id = model.fields.token;
+                        var video_id = model.token;
                         url = $.jYoutube(video_id)
                         $.getJSON('http://gdata.youtube.com/feeds/api/videos/' + video_id + '?v=2&alt=jsonc', function(data, status, xhr) {
                             json_data = data.data;
                             title = $("<p>").text(json_data.title).addClass("textTitle");
-                            console.log(model.fields);
                             image = $("<img>").attr('src', json_data.thumbnail.sqDefault).addClass("imageY");
 
                             $("<div>").addClass("divForElment").append(image).append(title).appendTo('#' + id);

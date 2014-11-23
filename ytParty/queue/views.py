@@ -106,7 +106,7 @@ def player_view(request, party_token=None):
     videos = Video.objects.filter(party_id=party).order_by('-votes')
     try:
         video = videos.get(status='P')
-    except Video.DoesNotExist:
+    except:
         video = None
 
     if video is None:
