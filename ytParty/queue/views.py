@@ -18,6 +18,7 @@ def _create_and_or_get_user(request):
         user_id = request.COOKIES['user_id']
         try:
             user = User.objects.get(pk=user_id)
+            print user.id
             return (True, user)
         except ObjectDoesNotExist:
             pass
@@ -61,10 +62,11 @@ def create_party_view(request):
     return response
 
 
-def host_view(request, context, party):
+def host_view(request, context, party, user):
     context_dict = {
         'party_token': party.token,
-        'party_count': Party.objects.count()
+        'party_count': Party.objects.count(),
+        'user_token': user.pk,
     }
     response = render_to_response('queue/host_view.html', context_dict, context)
     return response
@@ -83,7 +85,7 @@ def party_view(request, party_token=None):
     user_existed, user = _create_and_or_get_user(request)
 
     if user_existed and user == party.host_id:
-        return host_view(request, context, party)
+        return host_view(request, context, party, user)
 
     context_dict = {
         'party_token': party.token,
