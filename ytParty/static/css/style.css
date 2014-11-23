@@ -23,6 +23,11 @@
     padding-top : 10px
 }
 
+#viewer-container {
+    border   : 1px solid #ddd;
+    padding  : 100px;
+}
+
 .arama {
     padding : 10px
 }
@@ -38,4 +43,32 @@
     color            : #fff;
     font-size        : 12px;
     padding          : 5px
+}
+
+.actual {
+    background-color : #238002;
+}
+
+.finished {
+    background-color : #c884ff;
+}
+
+.queued {
+    background-color : #ffd829;
+}
+
+.divForElment {
+    margin        : 20px;
+    border-radius : 5px;
+}
+
+.imageY {
+    padding : 5px;
+}
+
+.textTitle {
+    display      : inline;
+    position     : relative;
+    bottom       : 40px;
+    padding-left : 50px;
 }

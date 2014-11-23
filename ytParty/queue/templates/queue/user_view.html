@@ -1,20 +1,23 @@
 {% extends "queue/base.html" %}
 {% block head %}
-    {% load staticfiles %}
+{% load staticfiles %}
 {% endblock %}
 {% block body %}
-    <h3 style="text-align: center">Cześć : {{ party_token }}</h3>
-    {% block host_info %}
-    {% endblock %}
+{{ party_token }}
+{% block host_info %}
+{% endblock %}
 
-    <div id="youtube_list" class="col-md-6">
-        <h2>Track queue</h2>
-        <ul>
+<div id="viewer_container" class="col-md-11">
+    <div class="col-md-5" id="left-cont">
+        <h1>Następne w kolejce:</h1>
+        <div id="youtube_list" class="col-md-11">
+            <ul>
 
-        </ul>
+            </ul>
+        </div>
     </div>
-    <div id="youtube_list_2" class="col-md-6">
-        <div class="arama">
+    <div class="col-md-5" id="right-cont">
+        <div id="headline-right" class="col-md-12">
             <form action="" onsubmit="return false">
                 <h2>Youtube API jQuery AutoComplete</h2>
 
@@ -24,32 +27,36 @@
                 </div>
             </form>
         </div>
-        <div id="sonuc"></div>
+        <div id="youtube_list_2" class="col-md-12">
+            <div id="sonuc"></div>
+        </div>
     </div>
-    <script>
-        party_token = "{{ party_token }}";
-        user_token = "{{ user_token }}";
-        var old_data = [];
-        function reloadList(id, $) {
-            $.ajax({
-                url: '/api/get_queue/' + party_token + "/",
-                success: function(data) {
-                    if (JSON.stringify(data) != JSON.stringify(old_data)) {
-                        console.log(data);
-                        $('#' + id).empty();
-                        data.forEach(function(model) {
-                            $.youtubeAppend(model.token, id);
-                        });
-                        old_data = data;
-                    }
-                }
-            });
-        }
-        window.setInterval(function() {
-            reloadList("youtube_list", jQuery)
+</div>
+<script>
+party_token = "{{ party_token }}";
+user_token = "{{ user_token }}";
+var old_data = [];
+function reloadList(id, $) {
+    $.ajax({
+url: '/api/get_queue/' + party_token + "/",
+success: function(data) {
+if (JSON.stringify(data) != JSON.stringify(old_data)) {
+console.log(data);
+$('#' + id).empty();
+data.forEach(function(model) {
+    $.youtubeAppend(model.token, id);
+    });
+old_data = data;
+}
+}
+});
+}
+window.setInterval(function() {
+        reloadList("youtube_list", jQuery)
         }, 500);
-    </script>
-    <script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
+</script>
+<script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
+<script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
+</div>
 {% endblock %}
 
