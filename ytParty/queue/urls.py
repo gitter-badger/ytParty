@@ -14,12 +14,12 @@ urlpatterns = patterns('',
 
                        # api urls
 
-                       url(r'^api/get_queue/(?P<party_token>[a-zA-Z0-9]{5})/(?P<user_id>\d+)/$', api.get_queue),
-                       url(r'^api/add_video/(?P<party_token>[a-zA-Z0-9]{5})/(?P<video_token>.{11})/(?P<user_id>\d+)/$',
+                       url(r'^api/get_queue/(?P<party_token>\w+)/(?P<user_id>\d+)/$', api.get_queue),
+                       url(r'^api/add_video/(?P<party_token>\w+)/(?P<video_token>.{11})/(?P<user_id>\d+)/$',
                            api.add_video),
                        url(r'^api/vote_video/(?P<video_id>\d+)/(?P<delta>[\-]?\d+)/(?P<user_id>\d+)$',
                            api.vote_video),
-                       url(r'^api/get_next_video/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_next_video),
+                       url(r'^api/get_next_video/(?P<party_token>\w+)/$', api.get_next_video),
                        url(r'^api/end_video/(?P<video_id>\d+)/$', api.video_end),
-                       url(r'^api/get_current/(?P<party_token>[a-zA-Z0-9]{5})/$', api.get_current_video),
+                       url(r'^api/get_current/(?P<party_token>\w+)/$', api.get_current_video),
 )

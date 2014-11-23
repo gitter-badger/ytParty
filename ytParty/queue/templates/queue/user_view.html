@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
     {% block hb %}
-        <h1>Share <a href="http://0.0.0.0:8080/party/{{ party_token }}">the link</a> to your party</h1>
+        <h4>Share <a href="http://0.0.0.0:8080/party/{{ party_token }}">the link</a> to your party</h4>
     {% endblock %}
     <div id="viewer_container" class="container-fluid">
         <div class="row">
@@ -62,7 +62,7 @@
                         $("#" + id + " > div").each(function() {
                             likes = $(this).children("input")[1].value;
                             var cl = function() {
-                                video_id = $(this).parent().children("input")[0].value
+                                video_id = $(this).parent().parent().children("input")[0].value
                                 __button = $(this);
                                 if ($(this).html() == "Like") {
                                     $.get("/api/vote_video/" + video_id + "/1/" + user_token, function(rez) {
