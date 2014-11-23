@@ -55,11 +55,38 @@
                     if (JSON.stringify(data) != JSON.stringify(old_data)) {
                         $('#' + id).empty();
                         data.forEach(function(model) {
-                            console.log(model);
                             $.youtubeAppend(model.token, id, model.id, model.likes);
                         });
                         $("#" + id + " > div").each(function() {
-                            // TODO: FIXME
+                            likes = $(this).children("input")[1].value;
+                            var cl = function() {
+                                video_id = $(this).parent().children("input")[0].value
+                                __button = $(this);
+                                if ($(this).html() == "Like") {
+                                    $.get("/api/vote_video/" + video_id + "/1/" + user_token, function(rez) {
+                                        if (rez == "SUCCESS") {
+                                            __button.html("Dislike");
+                                        } else {
+                                            alert("huj");
+                                        }
+                                    });
+                                } else {
+                                    $.get("/api/vote_video/" + video_id + "/-1/" + user_token, function(rez) {
+                                        if (rez == "SUCCESS") {
+                                            __button.html("Like");
+                                        } else {
+                                            alert("huj");
+                                        }
+                                    });
+                                }
+                            }
+                            console.log(likes);
+                            if (likes == 0) {
+                                $(this).append($("<button>").addClass("btn-like").text("Like").click(cl));
+                            }
+                            else {
+                                $(this).append($("<button>").addClass("btn-like").text("Dislike").click(cl));
+                            }
                         });
                         old_data = data;
                     }
@@ -90,6 +117,7 @@
     </script>
     <script type="text/javascript" src="{% static "js/ytHelper.js" %}"></script>
     <script type="text/javascript" src="{% static "js/ytSearch.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/pdfHelper.js" %}"></script>
     </div>
 {% endblock %}
 

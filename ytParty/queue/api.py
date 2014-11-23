@@ -50,17 +50,17 @@ def vote_video(request, video_id, delta, user_id):
         vote = UserVote(user=User.objects.get(pk=user_id), video=Video.objects.get(pk=video_id), delta=delta)
         vote.save()
         video.votes += delta
-    elif old_vote.delta == 1:
+    elif old_vote[0].delta == 1:
         if delta == 1:
             return HttpResponse('FAILURE')
         else:
-            old_vote.delete()
+            old_vote[0].delete()
             video.votes -= 1
     else:
         if delta == -1:
             return HttpResponse('FAILURE')
         else:
-            old_vote.delete()
+            old_vote[0].delete()
             video.votes += 1
     video.save()
     return HttpResponse('SUCCESS')

@@ -15,5 +15,10 @@ $.youtubeAppend = function(token, destinaton_id, video_id, video_likes) {
     if (video_likes == undefined) {
         video_likes = 0;
     }
-    $('#' + destinaton_id).append('<div class="youtube"><input type="hidden" name="video_id" value="' + video_id + '"><input type="hidden" name="video_likes" value="' + video_likes + '"><img src="' + resp.data.thumbnail.sqDefault + '" alt="" /><h3><a href="javascript:void(0)" onclick="$.youtubePlay(\'' + resp.data.id + '\')">' + resp.data.title + '</a></h3></div>');
+    $('#' + destinaton_id).append('<div class="youtube"><input type="hidden" name="video_id" value="' + video_id + '">' +
+            '<input type="hidden" name="video_likes" value="' + video_likes + '">' +
+            '<img src="' + resp.data.thumbnail.sqDefault + '" alt="" />' +
+            '<h3><a href="javascript:void(0)" onclick="$.youtubePlay(\'' + resp.data.id + '\')">' + resp.data.title + '</a></h3>' +
+            '</div>'
+    )
 };
