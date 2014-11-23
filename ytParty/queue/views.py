@@ -53,6 +53,7 @@ def create_party_view(request):
     context_dict = {
         'party_token': party.token,
         'party_count': Party.objects.count(),
+        'user_token': user.pk
     }
 
     response = render_to_response('queue/host_view.html', context_dict, context)
@@ -85,6 +86,7 @@ def party_view(request, party_token=None):
     context = RequestContext(request)
     if user_existed and user == party.host_id:
         return host_view(request, context, party, user)
+
     context_dict = {
         'party_token': party.token,
         'user_token': user.id
