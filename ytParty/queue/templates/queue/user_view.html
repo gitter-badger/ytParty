@@ -57,25 +57,7 @@
                             $.youtubeAppend(model.token, id, model.id, model.likes);
                         });
                         $("#" + id + " > div").each(function() {
-                            like = $("<button>").text("Like").addClass("btn-like");
-                            $(this).appendTo(like);
-                            dislike = $("<button>").text("Dislike").addClass("btn-dislike");
-                            $(this).appendTo(dislike);
-                            like.click(function() {
-                                if (like.hasClass("btn-active")) {
-                                    like.removeClass("btn-active");
-                                } else {
-                                    like.addClass("btn-active");
-                                }
-                            });
-                            dislike.click(function() {
-                                if (like.hasClass("btn-active")) {
-                                    like.removeClass("btn-active");
-
-                                } else {
-                                    like.addClass("btn-active");
-                                }
-                            });
+                            // TODO: FIXME
                         });
                         old_data = data;
                     }

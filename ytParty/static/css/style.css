@@ -1,9 +1,37 @@
-* { padding : 0; margin : 0; list-style : none; font-family : Arial }
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Titillium Web';
+    font-weight: 200;
+    color: #eee8aa;
+}
+p, div {
+    font-family: 'Titillium Web';
+    font-weight: 200;
+    color: #eee8aa;
+}
+
+body {
+    background-image: url("../bground.jpg");
+    background-repeat: repeat;
+}
+
+* { 
+    padding : 0; 
+    margin : 0; 
+    list-style : none; 
+    font-family : 'Titillium Web'; 
+    font-weight: 200;
+    color: #ddd;
+    border-color: #eee8aa;
+}
 
 .youtubeOynat { display : none; background : #ddd; padding : 0px }
 
+#youtube {
+    background: transparent;
+}
+
 .youtube {
-    border   : 1px solid #ddd;
+    border   : 1px solid transparent;
     padding  : 10px;
     overflow : hidden
 }
@@ -15,7 +43,7 @@
 
 .youtube a {
     text-decoration : none;
-    color           : darkred
+    color           : #eee8aa;
 }
 
 .youtube p {
@@ -103,4 +131,8 @@
 
 .btn-active {
     border-radius : 10px;
+}
+
+.left-col {
+    padding-right: 100px;
 }
